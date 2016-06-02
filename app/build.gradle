@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testApplicationId "com.udacity.gradle.builditbigger"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
+    testOptions{
+        unitTests.returnDefaultValues = true
+
+        unitTests.all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
+    }
+
+
+
+
+    productFlavors{
+        free{
+            applicationId "com.udacity.gradle.builditbigger.free"
+            dependencies {
+                // Added for AdMob
+                freeCompile 'com.google.android.gms:play-services-ads:8.4.0'
+            }
+        }
+        paid{
+            applicationId "com.udacity.gradle.builditbigger.paid"
+        }
+
+    }
+
+    packagingOptions {
+        exclude "META-INF/LICENSE.txt"
+        exclude "META-INF/NOTICE.txt"
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+    }
+    dexOptions {
+        jumboMode = true
+    }
+
+    /*compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }*/
+
+}
+
+dependencies {
+    compile project(':jokes_galore')
+    compile project(':jokes_interface')
+    /*provided files('libs/unirest-java-1.4.10-SNAPSHOT-withDependency-ShadedForAndroid.jar')
+        provided 'com.fasterxml.jackson.core:jackson-databind:+'*/
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile project(path: ':backend', configuration: 'android-endpoints')
+    //unit tests
+    testCompile 'junit:junit:4.12'
+    // required if you want to use Mockito for unit tests
+    testCompile 'org.mockito:mockito-core:1.+'
+    // required if you want to use Mockito for Android instrumentation tests
+    androidTestCompile 'org.mockito:mockito-core:1.+'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile 'junit:junit:4.12'
+}
+
+
+/*
+task execute (type:JavaExec) {
+
+    main = "com.udacity.gradle.builditbigger.EndPointsAsyncTestTask"
+    classpath = sourceSets.androidTest.runtimeClasspath
+}*/

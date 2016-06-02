@@ -1,0 +1,17 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+dependencies {
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    //compile 'com.squareup.retrofit:converter-gson:1.9.1'
+    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+    compile files('libs/json-20090211.jar')
+    compile fileTree(dir: 'libs' , include: '*.jar')
+}
